@@ -70,7 +70,7 @@
   
 </style>
 
-<div class="todo done">
+<div class="todo">
     <form action="" method="">
         <input type="hidden" name="done" value="">
         <button aria-label="Mark done/notDone"  class="toggle"></button> 
