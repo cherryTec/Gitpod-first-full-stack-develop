@@ -3,7 +3,7 @@ import type { RequestHandler } from "@sveltejs/kit"
 let todos: Todo[] = [];
 
 
-export const api = (request: RequestHandler, todo?: Todo) => {
+export const api = (request: RequestHandler, data?: Record<string, unknown>) => {
     let body = {};
     let status = 500;
     
@@ -17,8 +17,8 @@ export const api = (request: RequestHandler, todo?: Todo) => {
          break;
        
         case "POST":
-          todos.push(todo);
-          body = todos;
+          todos.push(data as Todo);
+          body = data;
           status = 201;
         break;  
             
@@ -26,6 +26,16 @@ export const api = (request: RequestHandler, todo?: Todo) => {
           todos = todos.filter(todo => todo.uid !== request.params.uid)
           status: 200;
           break;
+      
+        case "PATCH":
+          todos = todos.map(todo => {
+            if (todo.uid === request.params.uid) {
+                todo.text = data.text as string;
+              }
+              return todo;
+            });
+          status = 200;
+          break;  
 
 
         default:
